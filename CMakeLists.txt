@@ -59,6 +59,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
 
 endif(CMAKE_COMPILER_IS_GNUCC)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 option(BUILD_LIBAUDIO "build audio output library" ON)
 option(BUILD_LIBEMU "build sound emulation library" ON)

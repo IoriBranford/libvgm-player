@@ -109,6 +109,7 @@ public:
 	UINT32 GetPlayerType(void) const;
 	const char* GetPlayerName(void) const;
 	UINT8 LoadFile(const char* fileName);
+	UINT8 LoadData(size_t fileSize, UINT8* fileData);
 	UINT8 UnloadFile(void);
 	const VGM_HEADER* GetFileHeader(void) const;
 	const char* GetSongTitle(void);

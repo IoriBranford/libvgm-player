@@ -185,6 +185,34 @@ UINT8 VGMPlayer::LoadFile(const char* fileName)
 	return 0x00;
 }
 
+UINT8 VGMPlayer::LoadData(size_t fileSize, UINT8* fileData)
+{
+	if (fileSize < 4 || memcmp(fileData, "Vgm ", 4) || fileSize < 0x38)
+	{
+		return 0xF0;	// invalid file
+	}
+	/*if (! (fileSig[3] >= '0' && fileSig[3] <= '3'))
+	{
+	fclose(hFile);
+	return 0xF1;	// unsupported version
+	}*/
+
+	_fileData.resize(fileSize);
+	memcpy(&_fileData[0], fileData, fileSize);
+
+	// parse main header
+	ParseHeader();
+
+	// parse extra headers
+	ParseXHdr_Data32(_fileHdr.xhChpClkOfs, _xHdrChipClk);
+	ParseXHdr_Data16(_fileHdr.xhChpVolOfs, _xHdrChipVol);
+
+	// parse tags
+	LoadTags();
+
+	return 0x00;
+}
+
 UINT8 VGMPlayer::ParseHeader(void)
 {
 	memset(&_fileHdr, 0x00, sizeof(VGM_HEADER));

@@ -11,6 +11,7 @@ set(PLAYER_FILES
 	s98player.cpp
 	vgmplayer_cmdhandler.cpp
 	vgmplayer.cpp
+	vgmplayer_c.cpp
 )
 # export headers
 set(PLAYER_HEADERS

@@ -25,6 +25,8 @@ if(MSVC)
 	if(NOT MSVC_VERSION LESS 1400)
 		add_definitions("/D _CRT_SECURE_NO_WARNINGS")
 	endif()
+	find_path(ICONV_INCLUDE_DIRS iconv.h PATHS "libs/iconv/include")
+	find_library(ICONV_LIBRARIES NAMES iconv libiconv PATHS "libs/iconv/lib")
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCC)

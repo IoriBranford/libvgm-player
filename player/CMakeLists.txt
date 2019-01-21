@@ -37,7 +37,9 @@ if(WIN32 AND NOT MSVC)
 elseif(MSVC)
 	target_include_directories(${PROJECT_NAME} PRIVATE
 		${CMAKE_SOURCE_DIR}/libs/include_vc
+		${ICONV_INCLUDE_DIRS}
 	)
+	set(PLAYER_LIBS ${PLAYER_LIBS} ${ICONV_LIBRARIES})
 	if(MSVC_VERSION LESS 1400)
 		target_include_directories(${PROJECT_NAME} PRIVATE
 			${CMAKE_SOURCE_DIR}/libs/include_vc6

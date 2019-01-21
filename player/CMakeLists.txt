@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 set(PLAYER_DEFS)
 set(PLAYER_FILES
 	helper.c
+	../vgm/dblk_compr.c
 	playerbase.cpp
 	droplayer.cpp
 	s98player.cpp
@@ -22,7 +23,7 @@ set(PLAYER_HEADERS
 set(PLAYER_INCLUDES)
 set(PLAYER_LIBS)
 
-add_library(${PROJECT_NAME} STATIC ${PLAYER_FILES})
+add_library(${PROJECT_NAME} SHARED ${PLAYER_FILES})
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${PLAYER_DEFS})
 

@@ -78,28 +78,28 @@ if(BUILD_PLAYER)
 endif()
 
 
-if(BUILD_TESTS)
-
-add_executable(audiotest audiotest.c)
-target_include_directories(audiotest PRIVATE ${CMAKE_SOURCE_DIR})
-target_link_libraries(audiotest PRIVATE vgm-audio)
-
-add_executable(emutest emutest.c)
-target_include_directories(emutest PRIVATE ${CMAKE_SOURCE_DIR})
-target_link_libraries(emutest PRIVATE vgm-emu)
-
-add_executable(audemutest audemutest.c)
-target_include_directories(audemutest PRIVATE ${CMAKE_SOURCE_DIR})
-target_link_libraries(audemutest PRIVATE vgm-audio vgm-emu)
-
-add_executable(vgmtest vgmtest.c vgm/dblk_compr.c)
-target_include_directories(vgmtest PRIVATE ${CMAKE_SOURCE_DIR} ${ZLIB_INCLUDE_DIRS})
-target_link_libraries(vgmtest PRIVATE ${ZLIB_LIBRARIES} vgm-audio vgm-emu)
-
-endif(BUILD_TESTS)
-
-if(BUILD_PLAYER)
-add_executable(player player.cpp vgm/dblk_compr.c)
-target_include_directories(player PRIVATE ${CMAKE_SOURCE_DIR} ${ZLIB_INCLUDE_DIRS})
-target_link_libraries(player PRIVATE ${ZLIB_LIBRARIES} vgm-audio vgm-player)
-endif()
+#if(BUILD_TESTS)
+#
+#add_executable(audiotest audiotest.c)
+#target_include_directories(audiotest PRIVATE ${CMAKE_SOURCE_DIR})
+#target_link_libraries(audiotest PRIVATE vgm-audio)
+#
+#add_executable(emutest emutest.c)
+#target_include_directories(emutest PRIVATE ${CMAKE_SOURCE_DIR})
+#target_link_libraries(emutest PRIVATE vgm-emu)
+#
+#add_executable(audemutest audemutest.c)
+#target_include_directories(audemutest PRIVATE ${CMAKE_SOURCE_DIR})
+#target_link_libraries(audemutest PRIVATE vgm-audio vgm-emu)
+#
+#add_executable(vgmtest vgmtest.c vgm/dblk_compr.c)
+#target_include_directories(vgmtest PRIVATE ${CMAKE_SOURCE_DIR} ${ZLIB_INCLUDE_DIRS})
+#target_link_libraries(vgmtest PRIVATE ${ZLIB_LIBRARIES} vgm-audio vgm-emu)
+#
+#endif(BUILD_TESTS)
+#
+#if(BUILD_PLAYER)
+#add_executable(player player.cpp vgm/dblk_compr.c)
+#target_include_directories(player PRIVATE ${CMAKE_SOURCE_DIR} ${ZLIB_INCLUDE_DIRS})
+#target_link_libraries(player PRIVATE ${ZLIB_LIBRARIES} vgm-audio vgm-player)
+#endif()

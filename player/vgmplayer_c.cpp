@@ -74,23 +74,25 @@ extern "C" {
 		return vgmPlayer->Reset();
 	}
 	UINT32 vgmPlay(VGMPlayer *vgmPlayer, UINT32 smplCnt, INT16* data) {
-		UINT32 n = 0;
-		WAVE_32BS sample;
+		static std::vector<WAVE_32BS> samples;
+		samples.resize(smplCnt);
+		UINT32 n = vgmPlayer->Render(smplCnt, samples.data());
+		WAVE_32BS *sample = samples.data();
 		for (UINT32 i = 0; i < smplCnt; ++i) {
-			n += vgmPlayer->Render(1, &sample);
-			sample.L >>= 8;	// 24 bit -> 16 bit
-			sample.R >>= 8;
-			if (sample.L < -0x8000)
-				sample.L = -0x8000;
-			else if (sample.L > +0x7FFF)
-				sample.L = +0x7FFF;
-			if (sample.R < -0x8000)
-				sample.R = -0x8000;
-			else if (sample.R > +0x7FFF)
-				sample.R = +0x7FFF;
-			data[0] = (INT16)sample.L;
-			data[1] = (INT16)sample.R;
+			sample->L >>= 8;	// 24 bit -> 16 bit
+			sample->R >>= 8;
+			if (sample->L < -0x8000)
+				sample->L = -0x8000;
+			else if (sample->L > +0x7FFF)
+				sample->L = +0x7FFF;
+			if (sample->R < -0x8000)
+				sample->R = -0x8000;
+			else if (sample->R > +0x7FFF)
+				sample->R = +0x7FFF;
+			data[0] = (INT16)sample->L;
+			data[1] = (INT16)sample->R;
 			data += 2;
+			++sample;
 		}
 		return n;
 	}

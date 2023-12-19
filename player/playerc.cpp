@@ -13,23 +13,23 @@ PlayerC* PlayerC_NewVGM() {
     return p;
 }
 
-UINT8 PlayerC_SetOutputSettings(PlayerC *p, UINT32 smplRate, UINT8 channels, UINT8 smplBits, UINT32 smplBufferLen) {
+uint8_t PlayerC_SetOutputSettings(PlayerC *p, uint32_t smplRate, uint8_t channels, uint8_t smplBits, uint32_t smplBufferLen) {
     return p->player->SetOutputSettings(smplRate, channels, smplBits, smplBufferLen);
 }
 
-void PlayerC_SetLoopCount(PlayerC *p, UINT32 loops) {
+void PlayerC_SetLoopCount(PlayerC *p, uint32_t loops) {
     p->player->SetLoopCount(loops);
 }
 
-void PlayerC_SetFadeSeconds(PlayerC *p, UINT32 seconds) {
+void PlayerC_SetFadeSeconds(PlayerC *p, uint32_t seconds) {
     p->player->SetFadeSamples(p->player->GetSampleRate() * seconds);
 }
 
-UINT8 PlayerC_LoadData(PlayerC *p, DATA_LOADER *loader) {
+uint8_t PlayerC_LoadData(PlayerC *p, DATA_LOADER *loader) {
     if (!loader)
         return ENOMEM;
 
-    UINT8 error = DataLoader_Load(loader);
+    uint8_t error = DataLoader_Load(loader);
     if (!error) {
         error = p->player->LoadFile(loader);
     }
@@ -42,27 +42,27 @@ UINT8 PlayerC_LoadData(PlayerC *p, DATA_LOADER *loader) {
     return error;
 }
 
-UINT8 PlayerC_LoadFile(PlayerC *p, const char *filename) {
+uint8_t PlayerC_LoadFile(PlayerC *p, const char *filename) {
     return PlayerC_LoadData(p, FileLoader_Init(filename));
 }
 
-UINT8 PlayerC_LoadMemory(PlayerC *p, const UINT8 *data, UINT32 length) {
+uint8_t PlayerC_LoadMemory(PlayerC *p, const uint8_t *data, uint32_t length) {
     return PlayerC_LoadData(p, MemoryLoader_Init(data, length));
 }
 
-UINT8 PlayerC_Start(PlayerC *p) {
+uint8_t PlayerC_Start(PlayerC *p) {
     return p->player->Start();
 }
 
-UINT32 PlayerC_Render(PlayerC *p, UINT32 bufSize, void *data) {
+uint32_t PlayerC_Render(PlayerC *p, uint32_t bufSize, void *data) {
     return p->player->Render(bufSize, data);
 }
 
-UINT8 PlayerC_FadeOut(PlayerC *p) {
+uint8_t PlayerC_FadeOut(PlayerC *p) {
     return p->player->FadeOut();
 }
 
-UINT8 PlayerC_Stop(PlayerC *p) {
+uint8_t PlayerC_Stop(PlayerC *p) {
     return p->player->Stop();
 }
 

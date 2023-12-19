@@ -42,13 +42,7 @@ UINT8 PlayerC_LoadFile(PlayerC *p, const char *filename) {
 }
 
 UINT8 PlayerC_LoadMemory(PlayerC *p, const UINT8 *data, UINT32 length) {
-    DATA_LOADER *loader = MemoryLoader_Init(data, length);
-    if (!loader)
-        return ENOMEM;
-
-    UINT8 error = PlayerC_LoadData(p, loader);
-    DataLoader_Deinit(loader);
-    return error;
+    return PlayerC_LoadData(p, MemoryLoader_Init(data, length));
 }
 
 UINT8 PlayerC_Start(PlayerC *p) {

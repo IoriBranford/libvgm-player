@@ -21,6 +21,10 @@ void PlayerC_SetLoopCount(PlayerC *p, UINT32 loops) {
     p->player->SetLoopCount(loops);
 }
 
+void PlayerC_SetFadeSeconds(PlayerC *p, UINT32 seconds) {
+    p->player->SetFadeSamples(p->player->GetSampleRate() * seconds);
+}
+
 UINT8 PlayerC_LoadData(PlayerC *p, DATA_LOADER *loader) {
     if (!loader)
         return ENOMEM;

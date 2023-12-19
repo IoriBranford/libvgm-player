@@ -24,6 +24,7 @@ struct PlayerC {
 DLLEXPORT PlayerC* PlayerC_NewVGM();
 DLLEXPORT UINT8 PlayerC_SetOutputSettings(PlayerC *p, UINT32 smplRate, UINT8 channels, UINT8 smplBits, UINT32 smplBufferLen);
 DLLEXPORT void PlayerC_SetLoopCount(PlayerC *p, UINT32 loopCount);
+DLLEXPORT void PlayerC_SetFadeSeconds(PlayerC *p, UINT32 seconds);
 
 DLLEXPORT UINT8 PlayerC_LoadFile(PlayerC *p, const char *filename);
 DLLEXPORT UINT8 PlayerC_LoadMemory(PlayerC *p, const UINT8 *data, UINT32 length);

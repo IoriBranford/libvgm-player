@@ -59,6 +59,10 @@ UINT32 PlayerC_Render(PlayerC *p, UINT32 bufSize, void *data) {
     return p->player->Render(bufSize, data);
 }
 
+UINT8 PlayerC_FadeOut(PlayerC *p) {
+    return p->player->FadeOut();
+}
+
 UINT8 PlayerC_Stop(PlayerC *p) {
     return p->player->Stop();
 }

@@ -24,6 +24,7 @@ UINT8 PlayerC_LoadMemory(PlayerC *p, const UINT8 *data, UINT32 length);
 
 UINT8 PlayerC_Start(PlayerC *p);
 UINT32 PlayerC_Render(PlayerC *p, UINT32 bufSize, void *data);
+UINT8 PlayerC_FadeOut(PlayerC *p);
 UINT8 PlayerC_Stop(PlayerC *p);
 
 void PlayerC_delete(PlayerC *p);

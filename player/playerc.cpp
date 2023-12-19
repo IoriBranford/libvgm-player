@@ -9,6 +9,7 @@ PlayerC* PlayerC_NewVGM() {
     p->player = new PlayerA;
     p->player->RegisterPlayerEngine(new VGMPlayer);
     p->loader = nullptr;
+    p->player->SetFadeSamples(p->player->GetSampleRate());
     return p;
 }
 

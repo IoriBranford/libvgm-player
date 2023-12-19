@@ -53,8 +53,9 @@ function VGMPlayer:getVolume()
     return self.volume
 end
 
-function VGMPlayer:fade()
+function VGMPlayer:fade(seconds)
     self.threadinput:push("fade")
+    self.threadinput:push(seconds or 1)
 end
 
 function VGMPlayer.new(filename, buffersamples, rate)

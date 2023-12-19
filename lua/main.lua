@@ -13,7 +13,7 @@ end
 
 function love.keypressed(k)
     if k=="f" then
-        vgm:fade()
+        vgm:fade(6)
     end
 end
 

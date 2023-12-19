@@ -51,6 +51,8 @@ return function(filedata, buffersamples, rate, input, volume)
             volume = input:demand()
             source:setVolume(volume)
         elseif cmd == "fade" then
+            local seconds = input:demand()
+            libvgmplayer.PlayerC_SetFadeSeconds(player, seconds)
             libvgmplayer.PlayerC_FadeOut(player)
         end
 

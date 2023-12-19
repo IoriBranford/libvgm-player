@@ -32,6 +32,7 @@ typedef struct PlayerC {
 PlayerC* PlayerC_NewVGM();
 uint8_t PlayerC_SetOutputSettings(PlayerC *p, uint32_t smplRate, uint8_t channels, uint8_t smplBits, uint32_t smplBufferLen);
 void PlayerC_SetLoopCount(PlayerC *p, uint32_t loopCount);
+void PlayerC_SetFadeSeconds(PlayerC *p, uint32_t seconds);
 
 uint8_t PlayerC_LoadFile(PlayerC *p, const char *filename);
 uint8_t PlayerC_LoadMemory(PlayerC *p, const uint8_t *data, uint32_t length);

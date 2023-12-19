@@ -214,7 +214,15 @@ target_link_libraries(vgm2wav PRIVATE vgm-player vgm-emu vgm-utils)
 if(USE_SANITIZERS)
 	add_sanitizers(vgm2wav)
 endif(USE_SANITIZERS)
-install(TARGETS vgm2wav DESTINATION "${CMAKE_INSTALL_BINDIR}")
+
+add_executable(vgm2wav_c vgm2wav_c.cpp)
+target_include_directories(vgm2wav_c PRIVATE ${LIBVGM_SOURCE_DIR})
+target_link_libraries(vgm2wav_c PRIVATE vgm-player vgm-emu vgm-utils)
+if(USE_SANITIZERS)
+	add_sanitizers(vgm2wav_c)
+endif(USE_SANITIZERS)
+
+install(TARGETS vgm2wav vgm2wav_c DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif(BUILD_VGM2WAV)
 
 set(COMMON_HEADERS

@@ -17,6 +17,7 @@ return function(filedata, track, buffersamples, rate, input, volume)
     local sleep = love.timer.sleep
 
     local sounddata = love.sound.newSoundData(buffersamples, rate)
+    local soundbytes = sounddata:getSize()
     local pointer = sounddata:getFFIPointer()
     local source = love.audio.newQueueableSource(rate, 16, 2)
     source:setVolume(volume or 1)
@@ -29,7 +30,7 @@ return function(filedata, track, buffersamples, rate, input, volume)
     local function queueBuffers(n)
         n = math.min(n, source:getFreeBufferCount())
         for _ = 1, n do
-            render(musicemu, buffersamples, pointer)
+            render(musicemu, soundbytes, pointer)
             source:queue(sounddata)
         end
     end

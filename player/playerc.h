@@ -14,12 +14,12 @@
 extern "C" {
 #endif
 
-struct PlayerA;
+typedef struct PlayerA PlayerA;
 
-struct PlayerC {
+typedef struct PlayerC {
     PlayerA *player;
     DATA_LOADER *loader;
-};
+} PlayerC;
 
 DLLEXPORT PlayerC* PlayerC_NewVGM();
 DLLEXPORT UINT8 PlayerC_SetOutputSettings(PlayerC *p, UINT32 smplRate, UINT8 channels, UINT8 smplBits, UINT32 smplBufferLen);

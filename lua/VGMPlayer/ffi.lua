@@ -5,16 +5,18 @@ end
 
 local dllnames = {
     "vgm-player-c",
+    "vgm-player-c_Win64",
+    "vgm-player-c_Win64d",
 }
-local ok, vgmplayer
+local ok, libvgmplayer
 for _, dllname in ipairs(dllnames) do
-    ok, vgmplayer = pcall(ffi.load, dllname)
+    ok, libvgmplayer = pcall(ffi.load, dllname)
     if ok then
         break
     end
 end
 if not ok then
-    print(vgmplayer)
+    print(libvgmplayer)
     return false
 end
 
@@ -44,8 +46,8 @@ void PlayerC_delete(PlayerC *p);
 
 ffi.metatype("PlayerC", {
     __gc = function(p)
-        vgmplayer.PlayerC_delete(p)
+        libvgmplayer.PlayerC_delete(p)
     end
 })
 
-return vgmplayer
+return libvgmplayer

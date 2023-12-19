@@ -3,51 +3,45 @@ if not has_ffi then
     return false
 end
 
-local lib = require "libvgm.ffi"
+local lib = require "VGMPlayer.ffi"
 if not lib then
     return false
 end
 
----@class libvgm
+---@class VGMPlayer
 ---@field thread love.Thread
 ---@field threadinput love.Channel
-local libvgm = {}
-libvgm.__index = libvgm
+local VGMPlayer = {}
+VGMPlayer.__index = VGMPlayer
 
-function libvgm:getType()
+function VGMPlayer:getType()
     return "stream"
 end
 
-function libvgm:play(track)
+function VGMPlayer:play()
     self:stop()
-    self.thread:start(self.filedata, track or 0, self.buffersamples, self.rate, self.threadinput, self.volume)
+    self.thread:start(self.filedata, self.buffersamples, self.rate, self.threadinput, self.volume)
 end
 
-function libvgm:getTrackInfo(track)
---     local trackinfo = ffi.new("gme_info_t*[1]")
---     lib.gme_track_info(self.musicemu, trackinfo, track);
---     return trackinfo[0]
-end
-
-function libvgm:unpause()
+function VGMPlayer:unpause()
     self.threadinput:push("play")
 end
 
-function libvgm:pause()
+function VGMPlayer:pause()
     self.threadinput:push("pause")
 end
 
-function libvgm:stop()
+function VGMPlayer:stop()
     if self.thread:isRunning() then
         self.threadinput:push("stop")
         self.thread:wait()
     end
 end
 
-function libvgm:setLooping()
+function VGMPlayer:setLooping()
 end
 
-function libvgm:setVolume(v)
+function VGMPlayer:setVolume(v)
     self.volume = v
     if self.thread:isRunning() then
         self.threadinput:push("volume")
@@ -55,19 +49,15 @@ function libvgm:setVolume(v)
     end
 end
 
-function libvgm:getVolume()
+function VGMPlayer:getVolume()
     return self.volume
 end
 
-function libvgm:fade()
+function VGMPlayer:fade()
     self.threadinput:push("fade")
 end
 
-function libvgm.isSupported(filename)
-    return true--lib.gme_identify_extension(filename) ~= nil
-end
-
-function libvgm.new(filename, buffersamples, rate)
+function VGMPlayer.new(filename, buffersamples, rate)
     -- local filetype = lib.gme_identify_extension(filename)
     -- if filetype == nil then
     --     return nil, filename.." is not an emulated music file"
@@ -81,18 +71,18 @@ function libvgm.new(filename, buffersamples, rate)
         data = love.filesystem.newFileData(str, "decompressedmusic")
     end
 
-    local musicemu = {
+    local player = {
         volume = 1,
         filedata = data,
         buffersamples = buffersamples or 2048,
         rate = rate or 44100,
         thread = love.thread.newThread([[
-            require("libvgm.PlayThread")(...)
+            require("VGMPlayer.PlayThread")(...)
         ]]),
         threadinput = love.thread.newChannel()
     }
-    setmetatable(musicemu, libvgm)
-    return musicemu
+    setmetatable(player, VGMPlayer)
+    return player
 end
 
-return libvgm
+return VGMPlayer

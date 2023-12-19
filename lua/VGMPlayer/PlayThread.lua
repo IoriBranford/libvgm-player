@@ -1,14 +1,14 @@
-return function(filedata, track, buffersamples, rate, input, volume)
+return function(filedata, buffersamples, rate, input, volume)
     local has_ffi, ffi = pcall(require, "ffi")
     if not has_ffi then
         return
     end
-    local libvgm = require "libvgm.ffi"
-    if not libvgm then
+    local libvgmplayer = require "VGMPlayer.ffi"
+    if not libvgmplayer then
         return
     end
 
-    local render = libvgm.PlayerC_Render
+    local render = libvgmplayer.PlayerC_Render
 
     love.sound = require "love.sound"
     love.audio = require "love.audio"
@@ -22,20 +22,19 @@ return function(filedata, track, buffersamples, rate, input, volume)
     local source = love.audio.newQueueableSource(rate, 16, 2)
     source:setVolume(volume or 1)
 
-    local musicemu = libvgm.PlayerC_NewVGM()
-    libvgm.PlayerC_SetOutputSettings(musicemu, rate, 2, 16, buffersamples)
-    libvgm.PlayerC_LoadMemory(musicemu, filedata:getFFIPointer(), filedata:getSize())
-    musicemu = musicemu[0]
+    local player = libvgmplayer.PlayerC_NewVGM()
+    libvgmplayer.PlayerC_SetOutputSettings(player, rate, 2, 16, buffersamples)
+    libvgmplayer.PlayerC_LoadMemory(player, filedata:getFFIPointer(), filedata:getSize())
 
     local function queueBuffers(n)
         n = math.min(n, source:getFreeBufferCount())
         for _ = 1, n do
-            render(musicemu, soundbytes, pointer)
+            render(player, soundbytes, pointer)
             source:queue(sounddata)
         end
     end
 
-    libvgm.PlayerC_Start(musicemu)
+    libvgmplayer.PlayerC_Start(player)
     queueBuffers(source:getFreeBufferCount())
     source:play()
 
@@ -52,7 +51,7 @@ return function(filedata, track, buffersamples, rate, input, volume)
             volume = input:demand()
             source:setVolume(volume)
         elseif cmd == "fade" then
-            libvgm.PlayerC_FadeOut()
+            libvgmplayer.PlayerC_FadeOut(player)
         end
 
         queueBuffers(1)
@@ -65,4 +64,5 @@ return function(filedata, track, buffersamples, rate, input, volume)
     end
 
     source:stop()
+    libvgmplayer.PlayerC_Stop(player)
 end

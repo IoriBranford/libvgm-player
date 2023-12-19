@@ -3,13 +3,12 @@ if not has_ffi then
     return false
 end
 
-local vgmplayers = {
-    "vgm-player",
-    "libvgm-player.so"
+local dllnames = {
+    "vgm-player-c",
 }
 local ok, vgmplayer
-for _, gme in ipairs(vgmplayers) do
-    ok, vgmplayer = pcall(ffi.load, gme)
+for _, dllname in ipairs(dllnames) do
+    ok, vgmplayer = pcall(ffi.load, dllname)
     if ok then
         break
     end

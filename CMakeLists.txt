@@ -217,7 +217,7 @@ endif(USE_SANITIZERS)
 
 add_executable(vgm2wav_c vgm2wav_c.cpp)
 target_include_directories(vgm2wav_c PRIVATE ${LIBVGM_SOURCE_DIR})
-target_link_libraries(vgm2wav_c PRIVATE vgm-player vgm-emu vgm-utils)
+target_link_libraries(vgm2wav_c PRIVATE vgm-player vgm-player-c vgm-emu vgm-utils)
 if(USE_SANITIZERS)
 	add_sanitizers(vgm2wav_c)
 endif(USE_SANITIZERS)

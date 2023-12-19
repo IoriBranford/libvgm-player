@@ -12,7 +12,6 @@ set(PLAYER_FILES
 	vgmplayer_cmdhandler.cpp
 	vgmplayer.cpp
 	playera.cpp
-	playerc.cpp
 )
 # export headers
 set(PLAYER_HEADERS
@@ -24,7 +23,6 @@ set(PLAYER_HEADERS
 	s98player.hpp
 	vgmplayer.hpp
 	playera.hpp
-	playerc.h
 )
 set(PLAYER_INCLUDES)
 set(PLAYER_LIBS)
@@ -41,6 +39,15 @@ target_include_directories(${PROJECT_NAME}
 	PRIVATE ${PLAYER_INCLUDES}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PLAYER_LIBS} vgm-emu vgm-utils)
+
+add_library(${PROJECT_NAME}-c SHARED playerc.cpp)
+set_target_properties(${PROJECT_NAME}-c PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_compile_definitions(${PROJECT_NAME}-c PUBLIC ${PLAYER_DEFS})
+target_include_directories(${PROJECT_NAME}-c
+	PUBLIC $<BUILD_INTERFACE:${LIBVGM_SOURCE_DIR}> $<INSTALL_INTERFACE:${LIBVGM_INSTALL_INCLUDE_DIR}>
+	PRIVATE ${PLAYER_INCLUDES}
+)
+target_link_libraries(${PROJECT_NAME}-c PRIVATE ${PLAYER_LIBS} ${PROJECT_NAME})
 
 if(CMAKE_COMPILER_IS_GNUCC OR UNIX)
 	# link Math library

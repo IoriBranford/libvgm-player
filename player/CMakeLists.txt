@@ -42,6 +42,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PLAYER_LIBS} vgm-emu vgm-utils)
 
 add_library(${PROJECT_NAME}-c SHARED playerc.cpp)
 set_target_properties(${PROJECT_NAME}-c PROPERTIES POSITION_INDEPENDENT_CODE ON)
+set_target_properties(${PROJECT_NAME}-c PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 target_compile_definitions(${PROJECT_NAME}-c PUBLIC ${PLAYER_DEFS})
 target_include_directories(${PROJECT_NAME}-c
 	PUBLIC $<BUILD_INTERFACE:${LIBVGM_SOURCE_DIR}> $<INSTALL_INTERFACE:${LIBVGM_INSTALL_INCLUDE_DIR}>

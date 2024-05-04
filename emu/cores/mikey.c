@@ -489,7 +489,16 @@ typedef struct
 #define MPAN 0x44
 #define MSTEREO 0x50
 
+static void mikey_pimpl_reset( mikey_pimpl_t* mikey );
 static void mikey_pimpl_MikeyPimpl( mikey_pimpl_t* mikey )
+{
+  int i;
+  mikey_pimpl_reset(mikey);
+  for (i = 0; i < 4; i ++)
+    mikey->mMute[i] = false;
+}
+
+static void mikey_pimpl_reset( mikey_pimpl_t* mikey )
 {
   int i;
   for (i = 0; i < 4; i ++)
@@ -502,7 +511,6 @@ static void mikey_pimpl_MikeyPimpl( mikey_pimpl_t* mikey )
   {
     mikey->mAttenuationLeft[i] = 0x3c;
     mikey->mAttenuationRight[i] = 0x3c;
-    mikey->mMute[i] = false;
   }
 }
 
@@ -646,22 +654,24 @@ static UINT8 mikey_start( const DEV_GEN_CFG* cfg, DEV_INFO* retDevInf )
   if (mikey == NULL)
     return 0xFF;
 
-  //mikey_pimpl_MikeyPimpl( &mikey->mMikey );
-  //mikey_action_queue_ActionQueue( &mikey->mQueue );
+  mikey_pimpl_MikeyPimpl( &mikey->mMikey );
+  mikey_action_queue_ActionQueue( &mikey->mQueue );
+  //mikey->mSampleRate = cfg->clock / 16;	// TODO: This would be very demanding on the CPU. Is the quality improvement worth it?
   mikey->mSampleRate = cfg->smplRate;
+  SRATE_CUSTOM_HIGHEST(cfg->srMode, mikey->mSampleRate, cfg->smplRate);
   mikey->mTicksPerSample1 = 16000000 / mikey->mSampleRate;
   mikey->mTicksPerSample2 = 16000000 % mikey->mSampleRate;
   selectPOPCNT();
 
   mikey->devData.chipInf = (void*)mikey;
-  INIT_DEVINF( retDevInf, &mikey->devData, cfg->smplRate, &devDef );
+  INIT_DEVINF( retDevInf, &mikey->devData, mikey->mSampleRate, &devDef );
   return 0x00;
 }
 
 static void mikey_reset( void* info )
 {
   mikey_t* mikey = (mikey_t*)info;
-  mikey_pimpl_MikeyPimpl( &mikey->mMikey );
+  mikey_pimpl_reset( &mikey->mMikey );
   mikey_action_queue_ActionQueue( &mikey->mQueue );
   mikey->mTick = 0;
   mikey->mNextTick = 0;

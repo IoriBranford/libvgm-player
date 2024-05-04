@@ -1,13 +1,17 @@
 local VGMPlayer = require("VGMPlayer")
-local vgm
+local vgm, err
 
 function love.load(args)
     local file=args[1]
     if file then
-        vgm = VGMPlayer.new(file)
-        vgm:play()
+        vgm, err = VGMPlayer.new(file)
+        if vgm then
+            vgm:play()
+        else
+            error(err)
+        end
     else
-        love.event.quit()
+        error("No file given")
     end
 end
 
